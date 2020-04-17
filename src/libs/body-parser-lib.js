@@ -1,4 +1,5 @@
 import * as uuid from "uuid";
+import * as shortid from "shortid";
 
 export const getData = (event) => {
   const now = Math.ceil(Date.now()/1000);
@@ -30,7 +31,8 @@ export const getData = (event) => {
   console.log("userid: ",body.userId);
 
   if (body && !body.noteId) {
-    body.noteId = uuid.v1();
+    // body.noteId = uuid.v1();
+    body.noteId = shortid.generate();
   }
 
   return { now, headers, body };
@@ -40,9 +42,7 @@ export const createData = (event) => {
   const result = getData(event);
 
   if (result.body && !result.body.timeToLive) {
-    result.body.timeToLive = 1; // 15 minutes
-    // data.timeToLive= 15; // 15 minutes
-    // data.timeToLive= 24 * 60; // one day
+    result.body.timeToLive = 24 * 60; // 1 day
   }
 
   if (result.body && !result.body.telomer) {
