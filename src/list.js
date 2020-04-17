@@ -19,7 +19,5 @@ export const main = handler(async (event, context) => {
 
   const result = await dynamoDb.scan(params);
 
-  console.log(result);
-
   return result.Items;
 });

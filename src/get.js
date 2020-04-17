@@ -26,9 +26,10 @@ export const main = handler(async(event, context) => {
 
   const updateParams = {
     ...params,
-    UpdateExpression: "set telomer = :telomer",
+    UpdateExpression: "set telomer = :telomer, readAt = :readAt",
     ExpressionAttributeValues: {
       ":telomer": result.Item.telomer - 1,
+      ":readAt": item.now,
     },
     ReturnValues: "ALL_NEW"
   };
