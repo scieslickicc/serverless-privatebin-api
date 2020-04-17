@@ -39,25 +39,21 @@ provider:
 
 resources:
   # API Gateway Errors
-#  - ${file(resources/api-gateway-errors.yml)}
+  - ${file(resources/api-gateway-errors.yml)}
   # DynamoDB
   - ${file(resources/dynamodb-table.yml)}
 
 functions:
   create:
     handler: src/create.main
-#    layers:
-#      - {Ref: DepsLambdaLayer}
     events:
       - http:
           path: privatebin
           method: post
           cors: false
-#          authorizer: aws_iam
+
   get:
     handler: src/get.main
-#    layers:
-#      - {Ref: DepsLambdaLayer}
     events:
       - http:
           path: privatebin/{id}
@@ -66,8 +62,6 @@ functions:
 
   list:
     handler: src/list.main
-#    layers:
-#      - {Ref: DepsLambdaLayer}
     events:
       - http:
           path: privatebin
@@ -76,8 +70,6 @@ functions:
 
   update:
     handler: src/update.main
-#    layers:
-#      - {Ref: DepsLambdaLayer}
     events:
       - http:
           path: privatebin/{id}
@@ -86,14 +78,9 @@ functions:
 
   delete:
     handler: src/delete.main
-#    layers:
-#      - {Ref: DepsLambdaLayer}
     events:
       - http:
           path: privatebin/{id}
           method: delete
           cors: false
 
-#layers:
-#  deps:
-#    path: node_modules
