@@ -18,17 +18,20 @@ export const getData = (event) => {
     body.noteId = event.pathParameters.id;
   }
 
-  if (headers && !headers["Authorize"]) {
-    body.userId = uuid.v1();
-  } else {
-    body.userId = headers["Authorize"];
+  if (!body.userId) {
+    if (!headers["userid"]) {
+      body.userId = uuid.v1();
+    } else {
+      body.userId = headers["userid"];
+    }
   }
+
+  // console.log(headers);
+  console.log("userid: ",body.userId);
 
   if (body && !body.noteId) {
     body.noteId = uuid.v1();
   }
-
-  body.userId = 'b4ed466c-7fee-11ea-bc55-0242ac130003'; //todo for test purposes only
 
   return { now, headers, body };
 };

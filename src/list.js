@@ -5,6 +5,8 @@ import {getData} from "./libs/body-parser-lib";
 export const main = handler(async (event, context) => {
   const item = getData(event);
 
+  console.log("body: ", item.body);
+
   const params = {
     TableName: process.env.tableName,
     FilterExpression: "userId = :userId AND timeToLive > :now AND telomer > :telomer",
@@ -16,6 +18,8 @@ export const main = handler(async (event, context) => {
   };
 
   const result = await dynamoDb.scan(params);
+
+  console.log(result);
 
   return result.Items;
 });
