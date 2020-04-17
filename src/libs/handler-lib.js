@@ -8,6 +8,10 @@ export default function handler(lambda) {
       .then((responseBody) => [200, responseBody])
       .catch((e) => {
         debug.flush(e);
+        if (e.message === "Item not found.")
+        {
+          return [404, { error: e.message}];
+        }
         return [500, { error: e.message }];
       })
       .then(([statusCode, body]) => ({

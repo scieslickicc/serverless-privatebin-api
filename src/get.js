@@ -26,7 +26,7 @@ export const main = handler(async(event, context) => {
 
   const updateParams = {
     ...params,
-    UpdateExpression: "set telomer = :telomer, readAt = :readAt",
+    UpdateExpression: "SET telomer = :telomer, readAt = :readAt", //może zrobić przechowywanie ostatnich 5 czy 10 odczytań, wraz np z ip ?
     ExpressionAttributeValues: {
       ":telomer": result.Item.telomer - 1,
       ":readAt": item.now,

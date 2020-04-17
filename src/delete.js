@@ -1,12 +1,14 @@
 import handler from "./libs/handler-lib";
 import dynamoDb from "./libs/dynamodb-lib";
+import {getData} from "./libs/body-parser-lib";
 
 export const main = handler(async (event, context) => {
+  const item = getData(event);
+
   const params = {
     TableName: process.env.tableName,
     Key: {
-      // userId: event.requestContext.identity.cognitoIdentityId,
-      id: event.pathParameters.id
+      noteId: item.body.noteId
     },
   };
 

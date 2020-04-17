@@ -11,12 +11,15 @@ export const main = handler(async (event, context) => {
       noteId: item.body.noteId
     },
     FilterExpression: "userId = :userId AND timeToLive > :now AND telomer > :telomer",
-    UpdateExpression: "SET content = :content",
+    UpdateExpression: "SET content = :content, iv = :iv, tag = :tag, updatedAt = :updatedAt",
     ExpressionAttributeValues: {
       ":userId": item.body.userId,
       ":now": item.now,
       ":telomer": 0,
-      ":content": item.body.content || null,
+      ":content": item.body.content,
+      ":iv": item.body.iv,
+      ":tag": item.body.tag,
+      ":updatedAt": item.now,
     },
     ReturnValues: "ALL_NEW"
   };
