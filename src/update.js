@@ -10,12 +10,12 @@ export const main = handler(async (event, context) => {
     Key: {
       noteId: item.body.noteId
     },
-    FilterExpression: "userId = :userId AND timeToLive > :now AND telomer > :telomer",
+    // FilterExpression: "userId = :userId AND timeToLive > :now AND telomer > :telomer",
     UpdateExpression: "SET content = :content, iv = :iv, tag = :tag, updatedAt = :updatedAt",
     ExpressionAttributeValues: {
-      ":userId": item.body.userId,
-      ":now": item.now,
-      ":telomer": 0,
+      // ":userId": item.body.userId,
+      // ":now": item.now,
+      // ":telomer": 0,
       ":content": item.body.content,
       ":iv": item.body.iv,
       ":tag": item.body.tag,
