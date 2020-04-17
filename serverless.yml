@@ -50,7 +50,7 @@ functions:
       - http:
           path: privatebin
           method: post
-          cors: false
+          cors: true
 
   get:
     handler: src/get.main
@@ -58,7 +58,7 @@ functions:
       - http:
           path: privatebin/{id}
           method: get
-          cors: false
+          cors: true
 
   list:
     handler: src/list.main
@@ -66,7 +66,17 @@ functions:
       - http:
           path: privatebin
           method: get
-          cors: false
+          cors:
+            origin: '*' # <-- Specify allowed origin
+            headers: # <-- Specify allowed headers
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - userid
+            allowCredentials: true
 
   update:
     handler: src/update.main
@@ -74,7 +84,7 @@ functions:
       - http:
           path: privatebin/{id}
           method: put
-          cors: false
+          cors: true
 
   delete:
     handler: src/delete.main
@@ -82,5 +92,5 @@ functions:
       - http:
           path: privatebin/{id}
           method: delete
-          cors: false
+          cors: true
 
