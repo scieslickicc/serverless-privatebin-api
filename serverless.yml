@@ -52,7 +52,7 @@ functions:
       - http:
           path: privatebin
           method: post
-          cors: true
+          cors: false
 #          authorizer: aws_iam
   get:
     handler: src/get.main
@@ -62,7 +62,7 @@ functions:
       - http:
           path: privatebin/{id}
           method: get
-          cors: true
+          cors: false
 
   list:
     handler: src/list.main
@@ -72,7 +72,7 @@ functions:
       - http:
           path: privatebin
           method: get
-          cors: true
+          cors: false
 
   update:
     handler: src/update.main
@@ -82,7 +82,7 @@ functions:
       - http:
           path: privatebin/{id}
           method: put
-          cors: true
+          cors: false
 
   delete:
     handler: src/delete.main
@@ -92,7 +92,7 @@ functions:
       - http:
           path: privatebin/{id}
           method: delete
-          cors: true
+          cors: false
 
 #layers:
 #  deps:
