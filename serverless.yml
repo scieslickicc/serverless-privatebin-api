@@ -7,10 +7,15 @@ plugins:
   - serverless-bundle
   - serverless-offline
   - serverless-dotenv-plugin
+  - serverless-api-gateway-throttling
 
 custom:
   stage: ${opt:stage, self:provider.stage}
   tableName: ${self:custom.stage}-privatebin
+  # Configures throttling settings for all http endpoints
+  apiGatewayThrottling:
+    maxRequestsPerSecond: 10
+    maxConcurrentRequests: 5
 
 provider:
   name: aws
@@ -40,8 +45,6 @@ provider:
 resources:
   # API Gateway Errors
   - ${file(resources/api-gateway-errors.yml)}
-  # API Gateway Throttling
-  - ${file(resources/api-gateway-throttling.yml)}
   # DynamoDB
   - ${file(resources/dynamodb-table.yml)}
 
