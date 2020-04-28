@@ -1,0 +1,19 @@
+Resources:
+  Deployment:
+    Type: "AWS::ApiGateway::Deployment"
+    Properties:
+      RestApiId:
+        Ref: 'ApiGatewayRestApi'
+      StageName: ${self:custom.stage}
+      StageDescription:
+        ThrottlingBurstLimit: 10
+        ThrottlingRateLimit: 5
+
+#  Stage:
+#    Type: "AWS::ApiGateway::Stage"
+#    Properties:
+#      RestApiId:
+#        Ref: 'ApiGatewayRestApi'
+#      MethodSettings: [ ThrottlingBurstLimit: 10, ThrottlingRateLimit: 5 ]
+#      DeploymentId: ${self:custom.stage}
+##      StageName: 'dev'
