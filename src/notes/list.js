@@ -1,6 +1,6 @@
-import handler from "./libs/handler-lib";
-import dynamoDb from "./libs/dynamodb-lib";
-import {getData} from "./libs/body-parser-lib";
+import handler from "../libs/handler-lib";
+import dynamoDb from "../libs/dynamodb-lib";
+import {getData} from "../libs/body-parser-lib";
 
 export const main = handler(async (event, context) => {
   const item = getData(event);

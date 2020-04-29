@@ -12,6 +12,7 @@ plugins:
 custom:
   stage: ${opt:stage, self:provider.stage}
   tableName: ${self:custom.stage}-privatebin
+  userAccountTable: ${self:custom.stage}-userAccount
   # Configures throttling settings for all http endpoints
   apiGatewayThrottling:
     maxRequestsPerSecond: 10
@@ -50,26 +51,26 @@ resources:
 
 functions:
   create:
-    handler: src/create.main
+    handler: src/notes/create.main
     events:
       - http:
-          path: privatebin
+          path: privatebin/notes
           method: post
           cors: true
 
   get:
-    handler: src/get.main
+    handler: src/notes/get.main
     events:
       - http:
-          path: privatebin/{id}
+          path: privatebin/notes/{id}
           method: get
           cors: true
 
   list:
-    handler: src/list.main
+    handler: src/notes/list.main
     events:
       - http:
-          path: privatebin
+          path: privatebin/notes
           method: get
           cors:
             origin: '*' # <-- Specify allowed origin
@@ -84,18 +85,18 @@ functions:
             allowCredentials: true
 
   update:
-    handler: src/update.main
+    handler: src/notes/update.main
     events:
       - http:
-          path: privatebin/{id}
+          path: privatebin/notes/{id}
           method: put
           cors: true
 
   delete:
-    handler: src/delete.main
+    handler: src/notes/delete.main
     events:
       - http:
-          path: privatebin/{id}
+          path: privatebin/notes/{id}
           method: delete
           cors: true
 
