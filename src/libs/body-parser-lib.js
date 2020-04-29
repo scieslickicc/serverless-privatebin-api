@@ -12,6 +12,7 @@ export const getData = (event) => {
       userId: '',
       telomer: 3,
       timeToLive: 0,
+      size: 0,
     };
   }
 
@@ -51,7 +52,7 @@ export const createData = (event) => {
   }
 
   if (result.body && !result.body.type) {
-    result.body.type = 'text';
+    result.body.type = 'text/plain';
   }
 
   return result;

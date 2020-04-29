@@ -15,12 +15,12 @@ export const main = handler(async (event, context) => {
       timeToLive: item.now + item.body.ttl * 60, //, ttl in minutes valid date in epoch
       telomer: item.body.telomer, //max readCounter
       type: item.body.type, // test, json, etc, from rich editor
-      passwordHash: item.body.hash, //todo create hash from password, or hash from password generated in front...
-      //todo or hash from content - before encrypt?
-      content: item.body.content, //todo: consider maybe in base64
+      content: item.body.content,
       iv: item.body.iv,
       tag: item.body.tag,
+      compression: item.body.compression,
       createdAt: item.now,
+      size: item.body.size,
     }
   };
 
