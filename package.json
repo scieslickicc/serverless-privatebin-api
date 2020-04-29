@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "serverless-api-gateway-throttling": "^1.0.1",
+    "serverless-stack-output": "^0.2.3",
     "shortid": "^2.2.15",
     "ulid": "^2.3.0"
   }

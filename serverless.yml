@@ -1,4 +1,4 @@
-service: serverless-privatebin-api
+service: szotki-api
 
 package:
   individually: true
@@ -8,15 +8,22 @@ plugins:
   - serverless-offline
   - serverless-dotenv-plugin
   - serverless-api-gateway-throttling
+  - serverless-stack-output
 
 custom:
   stage: ${opt:stage, self:provider.stage}
   tableName: ${self:custom.stage}-privatebin
   userAccountTable: ${self:custom.stage}-userAccount
+
   # Configures throttling settings for all http endpoints
   apiGatewayThrottling:
     maxRequestsPerSecond: 10
     maxConcurrentRequests: 5
+
+  output:
+    #    handler: scripts/output.handler # Same syntax as you already know
+    file: ./stack.yml # toml, yaml, yml, and json format is available
+
 
 provider:
   name: aws
@@ -48,9 +55,11 @@ resources:
   - ${file(resources/api-gateway-errors.yml)}
   # DynamoDB
   - ${file(resources/dynamodb-table.yml)}
+  # Cognito
+  - ${file(resources/cognito.yml)}
 
 functions:
-  create:
+  createNotes:
     handler: src/notes/create.main
     events:
       - http:
@@ -58,7 +67,7 @@ functions:
           method: post
           cors: true
 
-  get:
+  getNotes:
     handler: src/notes/get.main
     events:
       - http:
@@ -66,7 +75,7 @@ functions:
           method: get
           cors: true
 
-  list:
+  listNotes:
     handler: src/notes/list.main
     events:
       - http:
@@ -82,9 +91,9 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
               - userid
-            allowCredentials: true
+#            allowCredentials: true
 
-  update:
+  updateNotes:
     handler: src/notes/update.main
     events:
       - http:
@@ -92,7 +101,7 @@ functions:
           method: put
           cors: true
 
-  delete:
+  deleteNotes:
     handler: src/notes/delete.main
     events:
       - http:
@@ -100,3 +109,26 @@ functions:
           method: delete
           cors: true
 
+  createUserAccount:
+    handler: src/user-accounts/create.main
+    events:
+      - http:
+          path: privatebin/user-accounts
+          method: post
+          cors: true
+
+  getUserAccount:
+    handler: src/user-accounts/get.main
+    events:
+      - http:
+          path: privatebin/user-accounts/{id}
+          method: get
+          cors: true
+
+  updateUserAccount:
+    handler: src/user-accounts/update.main
+    events:
+      - http:
+          path: privatebin/user-accounts/{id}/{counter}
+          method: get
+          cors: true
