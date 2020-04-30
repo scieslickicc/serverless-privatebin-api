@@ -1,0 +1,50 @@
+Resources:
+  CognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      # Generate a name based on the stage
+      UserPoolName: ${self:custom.stage}-${self:service}-user-pool
+      Schema:
+#        - Name: name
+#          AttributeDataType: String
+#          Mutable: true
+#          Required: true
+        - Name: email
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: false
+          RequireNumbers: false
+          RequireSymbols: false
+          RequireUppercase: false
+      UsernameAttributes:
+        - email
+      MfaConfiguration: "OFF"
+
+      AutoVerifiedAttributes:
+        - email
+
+  CognitoUserPoolClient:
+    Type: "AWS::Cognito::UserPoolClient"
+    Properties:
+      ClientName: email-auth-client
+      GenerateSecret: false
+      UserPoolId: !Ref CognitoUserPool
+#      ExplicitAuthFlows:
+#        - CUSTOM_AUTH_FLOW_ONLY
+#        - USER_SRP_AUTH
+
+# Print out the Id of the User Pool that is created
+Outputs:
+  UserPoolId:
+    Description: ID of the User Pool
+    Value:
+      Ref: CognitoUserPool
+
+  UserPoolClientId:
+    Description: ID of the User Pool Client
+    Value:
+      Ref: CognitoUserPoolClient

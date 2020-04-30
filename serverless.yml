@@ -1,4 +1,4 @@
-service: serverless-privatebin-api
+service: szotki-api
 
 package:
   individually: true
@@ -8,14 +8,22 @@ plugins:
   - serverless-offline
   - serverless-dotenv-plugin
   - serverless-api-gateway-throttling
+  - serverless-stack-output
 
 custom:
   stage: ${opt:stage, self:provider.stage}
   tableName: ${self:custom.stage}-privatebin
+  userAccountTable: ${self:custom.stage}-userAccount
+
   # Configures throttling settings for all http endpoints
   apiGatewayThrottling:
     maxRequestsPerSecond: 10
     maxConcurrentRequests: 5
+
+  output:
+    #    handler: scripts/output.handler # Same syntax as you already know
+    file: ./stack.yml # toml, yaml, yml, and json format is available
+
 
 provider:
   name: aws
@@ -47,29 +55,31 @@ resources:
   - ${file(resources/api-gateway-errors.yml)}
   # DynamoDB
   - ${file(resources/dynamodb-table.yml)}
+  # Cognito
+  - ${file(resources/cognito.yml)}
 
 functions:
-  create:
-    handler: src/create.main
+  createNotes:
+    handler: src/notes/create.main
     events:
       - http:
-          path: privatebin
+          path: privatebin/notes
           method: post
           cors: true
 
-  get:
-    handler: src/get.main
+  getNotes:
+    handler: src/notes/get.main
     events:
       - http:
-          path: privatebin/{id}
+          path: privatebin/notes/{id}
           method: get
           cors: true
 
-  list:
-    handler: src/list.main
+  listNotes:
+    handler: src/notes/list.main
     events:
       - http:
-          path: privatebin
+          path: privatebin/notes
           method: get
           cors:
             origin: '*' # <-- Specify allowed origin
@@ -81,21 +91,44 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
               - userid
-            allowCredentials: true
+#            allowCredentials: true
 
-  update:
-    handler: src/update.main
+  updateNotes:
+    handler: src/notes/update.main
     events:
       - http:
-          path: privatebin/{id}
+          path: privatebin/notes/{id}
           method: put
           cors: true
 
-  delete:
-    handler: src/delete.main
+  deleteNotes:
+    handler: src/notes/delete.main
     events:
       - http:
-          path: privatebin/{id}
+          path: privatebin/notes/{id}
           method: delete
           cors: true
 
+  createUserAccount:
+    handler: src/user-accounts/create.main
+    events:
+      - http:
+          path: privatebin/user-accounts
+          method: post
+          cors: true
+
+  getUserAccount:
+    handler: src/user-accounts/get.main
+    events:
+      - http:
+          path: privatebin/user-accounts/{id}
+          method: get
+          cors: true
+
+  updateUserAccount:
+    handler: src/user-accounts/update.main
+    events:
+      - http:
+          path: privatebin/user-accounts/{id}/{counter}
+          method: get
+          cors: true

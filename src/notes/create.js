@@ -1,11 +1,9 @@
-import handler from "./libs/handler-lib";
-import dynamoDb from "./libs/dynamodb-lib";
-import { createData } from "./libs/body-parser-lib";
+import handler from "../libs/handler-lib";
+import dynamoDb from "../libs/dynamodb-lib";
+import { createData } from "../libs/body-parser-lib";
 
 export const main = handler(async (event, context) => {
   const item = createData(event);
-
-  // required data: content (encrypted), hash (from content before encrypted)
 
   const params = {
     TableName: process.env.tableName,
